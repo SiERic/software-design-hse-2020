@@ -55,6 +55,8 @@ class Executor(object):
             return '\n'
 
     def _call_command(self, command: List[str], stdin: str) -> Optional[str]:
+        if len(command) == 0:
+            return None
         if command[0] in self.COMMANDS.keys():
             builtin = self.COMMANDS[command[0]](command[1:])
             new_stdin = builtin.execute(stdin)

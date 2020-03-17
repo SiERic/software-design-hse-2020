@@ -21,3 +21,8 @@ class ExecutorTestCase(unittest.TestCase):
     def test_execute_two_commands_with_echo(self):
         executor = Executor(Environment())
         self.assertEqual('kek\n', executor.execute([['pwd'], ['echo', 'kek']]))
+
+    def test_execute_empty_command(self):
+        executor = Executor(Environment())
+        self.assertEqual('\n', executor.execute([[]]))
+        self.assertEqual('\n', executor.execute([['git', 'status'], []]))
