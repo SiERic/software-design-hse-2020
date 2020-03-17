@@ -8,6 +8,7 @@ from src.commands.external import External
 from src.commands.pwd import Pwd
 from src.commands.wc import Wc
 from src.environment import Environment
+from src.exit_exception import ExitException
 
 
 class Executor(object):
@@ -29,12 +30,12 @@ class Executor(object):
         """
         self.environment = environment
 
-    def execute(self, commands: List[List[str]]) -> str:
+    def execute(self, commands: List[List[str]]) -> Optional[str]:
         """
         Executes pipeline of commands
         Each command output is a string, which used as next command input
         :param commands: list of commands (each command is a list of tokens)
-        :return: result of last command execution
+        :return: result of last command execution or None if exit command called
         """
         if len(commands) == 1 and len(commands[0]) == 1 and re.match(self.ASSIGNMENT_PATTERN, commands[0][0]):
             name, value = commands[0][0].split('=')
@@ -43,7 +44,11 @@ class Executor(object):
 
         stdin = None
         for command in commands:
-            stdin = self._call_command(command, stdin)
+            try:
+                stdin = self._call_command(command, stdin)
+            except ExitException:
+                return None
+
         if stdin is not None:
             return stdin
         else:

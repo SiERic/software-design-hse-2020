@@ -28,6 +28,8 @@ class Interpreter(object):
                 sys.stdout.flush()
 
                 stdout = self.executor.execute(self.parser.parse(sys.stdin.readline()))
+                if stdout is None:
+                    return
                 sys.stdout.write(stdout)
             except KeyboardInterrupt:
                 sys.stdout.write('\n')

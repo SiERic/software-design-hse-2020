@@ -1,12 +1,12 @@
-import sys
 from typing import List, Optional
 from src.commands.command import Command
+from src.exit_exception import ExitException
 
 
 class Exit(Command):
     """
     Exit command
-    Exits shell
+    Exits shell (raises ExitException)
     """
     def __init__(self, args: List[str]):
         """
@@ -20,4 +20,4 @@ class Exit(Command):
         Executes 'exit' command
         :param stdin: command input (always ignored)
         """
-        sys.exit(0)
+        raise ExitException
