@@ -10,8 +10,8 @@ class ExternalTestCase(unittest.TestCase):
         self.assertEqual(stdin, external.execute(None))
 
     def test_cat_with_stdin(self):
-        external = External(['cat'])
-        self.assertEqual('kek', external.execute('kek'))
+        external = External(['git'])
+        self.assertTrue(external.execute('help').find('commit') >= 0)
 
     def test_command_not_exist(self):
         external = External(['keksiki'])
