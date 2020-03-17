@@ -25,11 +25,12 @@ class Expander(object):
         return self._expand_variables(expression)
 
     def _expand_variables(self, expression: str) -> str:
+        result = expression
         for index in find_in_double_quotes(expression, '$')[::-1]:
             name = ''
             i = index + 1
             while i < len(expression) and re.match(r'[a-z]|[A-Z]|[0-9]|_', expression[i]):
                 name += expression[i]
                 i += 1
-            expression = expression[:index] + self.environment.get_variable(name) + expression[index + len(name) + 1:]
-        return expression
+            result = result[:index] + self.environment.get_variable(name) + result[index + len(name) + 1:]
+        return result

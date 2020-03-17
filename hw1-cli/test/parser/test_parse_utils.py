@@ -12,6 +12,9 @@ class ParseUtilsTestCase(unittest.TestCase):
     def test_find_in_double_quotes(self):
         self.assertEqual([0], find_in_double_quotes('$ \'$\'', '$'))
         self.assertEqual([0, 3], find_in_double_quotes('$ \"$\"', '$'))
+        self.assertEqual([0], find_in_double_quotes('$', '$'))
+        self.assertEqual([0, 3], find_in_double_quotes('$a $b', '$'))
+        self.assertEqual([0, 2], find_in_double_quotes('$a$b', '$'))
 
     def test_clever_split(self):
         self.assertEqual(['123', ' a'], clever_split('123| a', re.compile(r'\|')))
